@@ -1,0 +1,28 @@
+<% layout('layout') -%>
+
+<h1 class="text-center">Modification de votre profil</h1>
+<main>
+  <!--Affichage du message flash de (user.js) si il y a erreur-->
+    <% if(message.length > 0){ %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <%= message %>
+      </div>
+    <% } %>
+  <form method="post" class="mt-3">
+        <div class="mb-3 row text-center">
+        <label for="nom" class="col-sm-2 col-form-label text-end">Nom:</label>
+        <div class="col-sm-10">
+          <input type="text"  class="form-control" id="nom" name="name" value="<%= user.profile.name %>">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="adresse" class="col-sm-2 col-form-label text-end">Adresse:</label>
+        <div class="col-sm-10">
+          <input type="text"  class="form-control" id="adresse" name="address" value="">
+        </div>
+      </div>
+      <input type="submit" class="btn btn-info text-end btn-lg" value="Modification">
+      <a href="/profile" class="btn btn-secondary">Retour au profil</a>
+  </form>
+</main>

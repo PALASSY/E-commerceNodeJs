@@ -1,0 +1,37 @@
+<% layout('layout') -%>
+
+<div class="container">
+  <div class="row mt-5">
+    <aside class="col-sm-6 col-md-4">
+      <h1>Mon profil</h1>
+      <img src="<%= user.profile.picture %>" alt="avatar">
+      <p>Nom: <%= user.profile.name %></p>
+      <p>Email: <%= user.email %></p>
+      <p>Adresse: <%= user.address %></p>
+      <a href="/edit-profile/" class="btn btn-primary">Editer le profil</a>
+    </aside>
+    <section class="col-sm-6 col-md-8">
+      <h3>Historique</h3>
+      <div class="container">
+        <!--Boucle tant que l'index(products) < à la longeur des produits dans le tableau, on increment de 1-->
+        <% for(var i = 0; i < user.history.length; i++) { %>
+          <div class="mb-3" id="stripeHistory">
+              <%
+                var a = user.history[i].date;
+                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                var year = a.getFullYear();
+                var month = months[a.getMonth()];
+                var date = a.getDate();
+                var hour = a.getHours();
+                var min = a.getMinutes();
+                var sec = a.getSeconds();
+                var time = date + ' ' + month + ' ' + year + ' à ' + hour + ':' + min + ':' + sec ;
+              %>
+              <div class="">La date d'achat: <%= time %></div>
+              <div class="">Le montant d'achat est de: <%= user.history[i].paid %>€</div>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  </div>
+</div>

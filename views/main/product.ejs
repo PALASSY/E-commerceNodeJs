@@ -1,0 +1,34 @@
+<% layout('layout') -%>
+
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-8">
+      <img src="<%= product.image %>" alt="<%= product.name %>">
+    </div>
+    <div class="col-md-4">
+      <h3 class="productName"><%= product.name %></h3>
+      <h4><%= product.price %>€</h4>
+      <form class="" method="post">
+        <div class="btn-group" role="group">
+          <!--Le champ "hidden" permet d'avoir la quantité du produit au départ (c'est un lieu de stockage)-->
+          <input type="hidden" name="quantity" value="1" id="quantity">
+          <!--les boutton incrémenté/décréménté-->
+          <button type="button" id="minus" class="btn btn-secondary">-</button>
+          <button type="button" id="total" class="btn btn-secondary">1</button>
+          <button type="button" id="plus" class="btn btn-secondary">+</button>
+        </div>
+        <div class="form-group mt-5">
+          <!--Le champ "hidden" permet d'avoir lId du produit et son prix au départ (c'est un lieu de stockage)-->
+          <input type="hidden" name="product_id" value="<%= product._id %>" id="product_id">
+          <input type="hidden" name="priceHidden" value="<%= product.price %>" id="priceHidden">
+          <!--Affichage: le nom du produit et son  prix-->
+          <input type="text" name="item" value="<%= product.name %>" class="form-control">
+          <input type="text" name="priceValue" id="priceValue" value="<%= product.price %>" class="form-control mt-1">
+          <br>
+            <button type="submit" class="btn btn-info">Ajouter au panier</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

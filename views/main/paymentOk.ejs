@@ -1,0 +1,14 @@
+<% layout('layout') -%>
+
+<div class="container">
+  <h1 class="">Message de Stripe</h1>
+  <!--Affichage du message flash de (user.js) si il y a erreur-->
+    <% if(message.length > 0){ %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <%= message %>
+      </div>
+    <% } %>
+    <p><%= date %></p>
+    <a href="/profile" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voir vos historiques</a>
+</div>

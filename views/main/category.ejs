@@ -1,0 +1,21 @@
+<% layout('layout')-%>
+
+ <div class="container">
+   <div class="row">
+     <!--Boucle tant que l'index(products) < à la longeur des produits dans le tableau, on increment de 1-->
+     <% for(var i = 0; i < products.length; i++) { %>
+       <div class="col-md-4">
+         <a href="/product/<%= products[i]._id %>">
+           <figure class="thumbnail">
+             <img class="img-fluid" src="<%= products[i].image %>" alt="<%= products[i].name %>">
+             <figcaption>
+               <h3><%= products[i].name %></h3>
+               <p><%= products[i].category.name %></p>
+               <button class="btn btn-info btn-sm"><%= products[i].price %>€</button>
+             </figcaption>
+           </figure>
+          </a>
+       </div>
+     <% } %>
+   </div>
+ </div>

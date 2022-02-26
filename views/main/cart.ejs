@@ -1,0 +1,121 @@
+<% layout('layout') -%>
+
+<div class="container mt-5">
+  <h1>Mon panier</h1>
+  <!--Affichage du message si le panier est vide-->
+  <% if(foundCart.total === 0) { %>
+    <h3 class="alert alert-warning">Votre panier est vide!</h3>
+    <a href="/" class="btn btn-secondary">Retour à l'accueil</a>
+  <% } %>
+  <!--Affichage du message flash de (suppression de produit dans le panier)-->
+    <% if(message.length > 0){ %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <%= message %>
+      </div>
+    <% } %>
+  <div class="row">
+    <% if(foundCart.total > 0){ %>
+     <!--Boucle pour afficher les produits ajoutés dans le panier-->
+    <% for(let i = 0; i < foundCart.items.length; i++) { %>
+      <div class="col-md-9 mt-3">
+       <div class="list-group">
+         <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-3">
+                <span> <img src="<%= foundCart.items[i].item.image %>" alt="<%= foundCart.items[i].item.name %>" class="img-fluid"></span>
+              </div>
+              <div class="col-md-6">
+                <p class="list-group-item-heading"><%= foundCart.items[i].item.name %></p>
+              </div>
+              <div class="col-md-3">
+                <p class=""><%= foundCart.items[i].quantity %></p>
+                <p class=""><%= foundCart.items[i].price %> €</p>
+              </div>
+            </div>
+            <form action="/remove" method="post">
+              <input type="hidden" name="item" value="<%= foundCart.items[i]._id %>">
+              <input type="hidden" name="price" value="<%= foundCart.items[i].price %>">
+              <button type="submit" class="btn btn-danger mt-3"><i class="far fa-trash-alt"></i> Supprimer</button>
+            </form>
+         </span>
+       </div>
+    </div>
+    <% } %>
+    <div class="col-md-3 mt-3">
+      <div class="list-group">
+        <span class="list-group-item">
+          <h4>Total: <span class="totalPrice"><%= foundCart.total %> €</span></h4>
+          <div class="form-group">
+            <input type="hidden" name="" value="">
+            <!--data-toggle = -->
+            <!--data-target = l'élément qui sera lié à ce bouton-->
+
+            <button type="submit" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#stripeModal">Payer avec Stripe</button>
+
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+<% } %>
+<!-- Ici ce l'élément qui lie le bouton (boîte-modale) -->
+    <div class="modal fade" id="stripeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Paiment avec Stripe</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <!--modal-body-->
+          <div class="modal-body">
+            <!--Bootsnipp = JS(footer) relie ce code à Stripe -->
+            <form action="/payment" id="payment-form" method="post">
+              <input type="hidden" name="stripeMoney" value="<%= foundCart.total %>">
+              <div class='form-row'>
+                <div class='form-group required'>
+                  <label class='control-label'>Nom sur la CarteBancaire</label>
+                  <input class='form-control' type='text' id="name-cart" name="nameCart" value="">
+                </div>
+              </div>
+              <div class='form-row mt-1'>
+                <div class='form-group card required'>
+                  <label class='control-label'>Numero de la CarteBancaire</label>
+                  <input autocomplete='off' class='form-control' type='text' id="cart-number">
+                </div>
+              </div>
+              <div class='form-row'>
+                <div class='form-group cvc required'>
+                  <label class='control-label'>CVC</label>
+                  <input autocomplete='off' class='form-control' placeholder='ex. 311' type='text' id="card-cvc">
+                </div>
+                <div class='col form-group expiration required'>
+                  <label class='control-label'>Expiration</label>
+                  <input class='form-control' placeholder='MM' type='text' id="card-expiry-month">
+                </div>
+                <div class='col form-group expiration required'>
+                  <label class='control-label'> </label>
+                  <input class='form-control' placeholder='AAAA' type='text' id="card-expiry-year">
+                </div>
+              </div>
+              <div class='form-row'>
+                <div class='col-md-12'>
+                  <div class='form-control total btn btn-info mb-2'>
+                    Total:
+                    <span class='amount'><%= foundCart.total %> €</span>
+                  </div>
+                </div>
+              </div>
+              <div class='form-row'>
+                <!--Affichage des erreurs envoyé par Stripe(dans js/custom.js)-->
+                <div id="payement-errors"></div>
+                <div class='col-md-12 form-group'>
+                  <button class='form-control btn btn-primary' type='submit' id="submit-button">Payer »</button>
+                </div>
+              </div>
+            </form><!--Fin Bootsnipp-->
+         </div><!--Fin modal-body-->
+        </div>
+      </div>
+   </div>
+</div>
